@@ -18,7 +18,9 @@
 //
 // Contributor(s): Taiichi Yuasa <yuasa@kuis.kyoto-u.ac.jp>
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Hashtable;
 
 final class Subr extends Function {
@@ -31,7 +33,8 @@ final class Subr extends Function {
 	private boolean restp;
 	private boolean specialp;
 
-	private static Hashtable methodTable = new Hashtable(16);
+	private static Hashtable<String, Method[]> methodTable = new Hashtable<String, Method[]>(
+			16);
 
 	private static Method findMethod(String cname, String mname) {
 		Method[] methods = (Method[]) methodTable.get(cname);

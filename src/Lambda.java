@@ -46,7 +46,6 @@ final class Lambda extends Function {
 	}
 
 	private final static Symbol Slambda = Symbol.intern("lambda");
-	private final static Pair listLambda = List.list(Slambda);
 
 	public Object invoke0(List args) {
 		try {

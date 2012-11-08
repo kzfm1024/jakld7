@@ -18,9 +18,8 @@
 //
 // Contributor(s): Taiichi Yuasa <yuasa@kuis.kyoto-u.ac.jp>
 
-import java.util.Hashtable;
 import java.util.Enumeration;
-import java.lang.reflect.*;
+import java.util.Hashtable;
 
 final class Symbol {
 
@@ -34,7 +33,7 @@ final class Symbol {
 	private int kind = SKundefined;
 	private String printName = null;
 
-	private final static Hashtable symbolTable = new Hashtable();
+	private final static Hashtable<String, Symbol> symbolTable = new Hashtable<String, Symbol>();
 
 	Symbol(String s) {
 		name = s;
@@ -211,7 +210,7 @@ final class Symbol {
 		}
 	}
 
-	private final static Hashtable traceSet = new Hashtable();
+	private final static Hashtable<Symbol, Pair> traceSet = new Hashtable<Symbol, Pair>();
 	private final static Symbol Sx = intern("x");
 	private final static Symbol Squote = intern("quote");
 
@@ -239,7 +238,7 @@ final class Symbol {
 	static List untrace(List syms) {
 		List untraced = List.nil;
 		if (syms == List.nil) {
-			Enumeration keys = traceSet.keys();
+			Enumeration<Symbol> keys = traceSet.keys();
 			while (keys.hasMoreElements()) {
 				Symbol sym = (Symbol) keys.nextElement();
 				Pair x = (Pair) traceSet.get(sym);
