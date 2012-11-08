@@ -18,9 +18,20 @@
 //
 // Contributor(s): Taiichi Yuasa <yuasa@kuis.kyoto-u.ac.jp>
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PushbackReader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
-import java.lang.reflect.*;
 
 final class IO {
 
@@ -269,10 +280,38 @@ final class IO {
 					return null;
 			return null;
 		case '#':
+			c = (char) in.read();
+			if (c == '|') {
+				skipNestedComment(in);
+				return null;
+			} else if (c == ';') {
+				readObject(in, 0);
+				return null;
+			} else {
+				in.unread(c);
+			}
 			return sharpSignMacroReader(in);
 		default:
 			throw Eval.systemError("undefined # reader");
 		}
+	}
+
+	private static Object skipNestedComment(PushbackReader in)
+			throws IOException {
+		char c1, c2;
+		while ((c1 = (char) in.read()) != EOF) {
+			if (c1 == '#') {
+				c2 = (char) in.read();
+				if (c2 == '|')
+					skipNestedComment(in);
+			} else if (c1 == '|') {
+				c2 = (char) in.read();
+				if (c2 == '#')
+					return null;
+			}
+		}
+
+		throw Eval.error("unexpected EOF in nested comment");
 	}
 
 	private static Object sharpSignMacroReader(PushbackReader in)
