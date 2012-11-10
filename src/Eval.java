@@ -33,6 +33,7 @@ final class Eval {
 			Env.init();
 			IO.init();
 			Lambda.init();
+			Macro.init();
 			List.init();
 			Num.init();
 			Symbol.init();
@@ -97,6 +98,7 @@ final class Eval {
 	}
 
 	private final static Symbol Sdefine = Symbol.intern("define");
+	private final static Symbol SdefineMacro = Symbol.intern("define-macro");
 	private final static Symbol Sbegin = Symbol.intern("begin");
 	private final static Symbol Strace = Symbol.intern("trace");
 	private final static Symbol Suntrace = Symbol.intern("untrace");
@@ -108,6 +110,9 @@ final class Eval {
 				if (pair.car == Sdefine) {
 					pair = (Pair) pair.cdr;
 					return topLevelDefine(pair.car, (List) pair.cdr);
+				} else if (pair.car == SdefineMacro) {
+					pair = (Pair) pair.cdr;
+					return topLevelDefineMacro(pair.car, (List) pair.cdr);
 				} else if (pair.car == Sbegin) {
 					Object val = List.nil;
 					for (List body = (List) pair.cdr; body != List.nil; body = (List) body.cdr)
@@ -153,6 +158,12 @@ final class Eval {
 						throw error(IO.printString(fval) + " is not a function");
 				}
 			}
+
+			if (f instanceof Macro) {
+				pair.car = ((Macro) f).expand();
+				return eval(pair, env, tailp);
+			}
+
 			List list = (List) pair.cdr;
 			List args = List.nil;
 			for (; list != List.nil; list = (List) list.cdr) {
@@ -221,6 +232,20 @@ final class Eval {
 		} else {
 			Symbol s = (Symbol) ((Pair) name).car;
 			return s.define(new Lambda(s, null, ((Pair) name).cdr, rest));
+		}
+	}
+
+	private static Symbol topLevelDefineMacro(Object name, List rest) {
+		if (name instanceof Symbol) {
+			if (rest.cdr != List.nil)
+				throw new Error("too many arguments to define-macro");
+			Macro m = new Macro((Symbol) name, (Object) rest.car);
+			return ((Symbol) name).define(m);
+		} else {
+			Symbol s = (Symbol) ((Pair) name).car;
+			Lambda l = new Lambda(s, null, ((Pair) name).cdr, rest);
+			Macro m = new Macro((Symbol) s, (Object) l);
+			return s.define(m);
 		}
 	}
 
