@@ -81,7 +81,7 @@ class List {
 		Subr.def("List", "car", 1);
 	}
 
-	public static Object car(List x) {
+	public static Object car(Pair x) {
 		return x.car;
 	}
 
@@ -89,7 +89,7 @@ class List {
 		Subr.def("List", "cdr", 1);
 	}
 
-	public static Object cdr(List x) {
+	public static Object cdr(Pair x) {
 		return x.cdr;
 	}
 
@@ -113,224 +113,224 @@ class List {
 		Subr.def("List", "caar", 1);
 	}
 
-	public static Object caar(List x) {
-		return ((List) x.car).car;
+	public static Object caar(Pair x) {
+		return car((Pair) car(x));
 	}
 
 	static {
 		Subr.def("List", "cadr", 1);
 	}
 
-	public static Object cadr(List x) {
-		return ((List) x.cdr).car;
+	public static Object cadr(Pair x) {
+		return car((Pair) cdr(x));
 	}
 
 	static {
 		Subr.def("List", "cdar", 1);
 	}
 
-	public static Object cdar(List x) {
-		return ((List) x.car).cdr;
+	public static Object cdar(Pair x) {
+		return cdr((Pair) car(x));
 	}
 
 	static {
 		Subr.def("List", "cddr", 1);
 	}
 
-	public static Object cddr(List x) {
-		return ((List) x.cdr).cdr;
+	public static Object cddr(Pair x) {
+		return cdr((Pair) cdr(x));
 	}
 
 	static {
 		Subr.def("List", "caaar", 1);
 	}
 
-	public static Object caaar(List x) {
-		return ((List) ((List) x.car).car).car;
+	public static Object caaar(Pair x) {
+		return car((Pair) car((Pair) car(x)));
 	}
 
 	static {
 		Subr.def("List", "caadr", 1);
 	}
 
-	public static Object caadr(List x) {
-		return ((List) ((List) x.cdr).car).car;
+	public static Object caadr(Pair x) {
+		return car((Pair) car((Pair) cdr(x)));
 	}
 
 	static {
 		Subr.def("List", "cadar", 1);
 	}
 
-	public static Object cadar(List x) {
-		return ((List) ((List) x.car).cdr).car;
+	public static Object cadar(Pair x) {
+		return car((Pair) cdr((Pair) car(x)));
 	}
 
 	static {
 		Subr.def("List", "caddr", 1);
 	}
 
-	public static Object caddr(List x) {
-		return ((List) ((List) x.cdr).cdr).car;
+	public static Object caddr(Pair x) {
+		return car((Pair) cdr((Pair) cdr(x)));
 	}
 
 	static {
 		Subr.def("List", "cdaar", 1);
 	}
 
-	public static Object cdaar(List x) {
-		return ((List) ((List) x.car).car).cdr;
+	public static Object cdaar(Pair x) {
+		return cdr((Pair) car((Pair) car(x)));
 	}
 
 	static {
 		Subr.def("List", "cdadr", 1);
 	}
 
-	public static Object cdadr(List x) {
-		return ((List) ((List) x.cdr).car).cdr;
+	public static Object cdadr(Pair x) {
+		return cdr((Pair) car((Pair) cdr(x)));
 	}
 
 	static {
 		Subr.def("List", "cddar", 1);
 	}
 
-	public static Object cddar(List x) {
-		return ((List) ((List) x.car).cdr).cdr;
+	public static Object cddar(Pair x) {
+		return cdr((Pair) cdr((Pair) car(x)));
 	}
 
 	static {
 		Subr.def("List", "cdddr", 1);
 	}
 
-	public static Object cdddr(List x) {
-		return ((List) ((List) x.cdr).cdr).cdr;
+	public static Object cdddr(Pair x) {
+		return cdr((Pair) cdr((Pair) cdr(x)));
 	}
 
 	static {
 		Subr.def("List", "caaaar", 1);
 	}
 
-	public static Object caaaar(List x) {
-		return ((List) ((List) ((List) x.car).car).car).car;
+	public static Object caaaar(Pair x) {
+		return car((Pair) car((Pair) car((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "caaadr", 1);
 	}
 
-	public static Object caaadr(List x) {
-		return ((List) ((List) ((List) x.cdr).car).car).car;
+	public static Object caaadr(Pair x) {
+		return car((Pair) car((Pair) car((Pair) cdr(x))));
 	}
 
 	static {
 		Subr.def("List", "caadar", 1);
 	}
 
-	public static Object caadar(List x) {
-		return ((List) ((List) ((List) x.car).cdr).car).car;
+	public static Object caadar(Pair x) {
+		return car((Pair) car((Pair) cdr((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "caaddr", 1);
 	}
 
-	public static Object caaddr(List x) {
-		return ((List) ((List) ((List) x.cdr).cdr).car).car;
+	public static Object caaddr(Pair x) {
+		return car((Pair) car((Pair) cdr((Pair) cdr(x))));
 	}
 
 	static {
 		Subr.def("List", "cadaar", 1);
 	}
 
-	public static Object cadaar(List x) {
-		return ((List) ((List) ((List) x.car).car).cdr).car;
+	public static Object cadaar(Pair x) {
+		return car((Pair) cdr((Pair) car((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "cadadr", 1);
 	}
 
-	public static Object cadadr(List x) {
-		return ((List) ((List) ((List) x.cdr).car).cdr).car;
+	public static Object cadadr(Pair x) {
+		return car((Pair) cdr((Pair) car((Pair) cdr(x))));
 	}
 
 	static {
 		Subr.def("List", "caddar", 1);
 	}
 
-	public static Object caddar(List x) {
-		return ((List) ((List) ((List) x.car).cdr).cdr).car;
+	public static Object caddar(Pair x) {
+		return car((Pair) cdr((Pair) cdr((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "cadddr", 1);
 	}
 
-	public static Object cadddr(List x) {
-		return ((List) ((List) ((List) x.cdr).cdr).cdr).car;
+	public static Object cadddr(Pair x) {
+		return car((Pair) cdr((Pair) cdr((Pair) cdr(x))));
 	}
 
 	static {
 		Subr.def("List", "cdaaar", 1);
 	}
 
-	public static Object cdaaar(List x) {
-		return ((List) ((List) ((List) x.car).car).car).cdr;
+	public static Object cdaaar(Pair x) {
+		return cdr((Pair) car((Pair) car((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "cdaadr", 1);
 	}
 
-	public static Object cdaadr(List x) {
-		return ((List) ((List) ((List) x.cdr).car).car).cdr;
+	public static Object cdaadr(Pair x) {
+		return cdr((Pair) car((Pair) car((Pair) cdr(x))));
 	}
 
 	static {
 		Subr.def("List", "cdadar", 1);
 	}
 
-	public static Object cdadar(List x) {
-		return ((List) ((List) ((List) x.car).cdr).car).cdr;
+	public static Object cdadar(Pair x) {
+		return cdr((Pair) car((Pair) cdr((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "cdaddr", 1);
 	}
 
-	public static Object cdaddr(List x) {
-		return ((List) ((List) ((List) x.cdr).cdr).car).cdr;
+	public static Object cdaddr(Pair x) {
+		return cdr((Pair) car((Pair) cdr((Pair) cdr(x))));
 	}
 
 	static {
 		Subr.def("List", "cddaar", 1);
 	}
 
-	public static Object cddaar(List x) {
-		return ((List) ((List) ((List) x.car).car).cdr).cdr;
+	public static Object cddaar(Pair x) {
+		return cdr((Pair) cdr((Pair) car((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "cddadr", 1);
 	}
 
-	public static Object cddadr(List x) {
-		return ((List) ((List) ((List) x.cdr).car).cdr).cdr;
+	public static Object cddadr(Pair x) {
+		return cdr((Pair) cdr((Pair) car((Pair) cdr(x))));
 	}
 
 	static {
 		Subr.def("List", "cdddar", 1);
 	}
 
-	public static Object cdddar(List x) {
-		return ((List) ((List) ((List) x.car).cdr).cdr).cdr;
+	public static Object cdddar(Pair x) {
+		return cdr((Pair) cdr((Pair) cdr((Pair) car(x))));
 	}
 
 	static {
 		Subr.def("List", "cddddr", 1);
 	}
 
-	public static Object cddddr(List x) {
-		return ((List) ((List) ((List) x.cdr).cdr).cdr).cdr;
+	public static Object cddddr(Pair x) {
+		return cdr((Pair) cdr((Pair) cdr((Pair) cdr(x))));
 	}
 
 	static {

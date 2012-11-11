@@ -388,6 +388,7 @@
 (test #t 'standard-case
       (or (string=? (symbol->string 'a) "A")
 	  (string=? (symbol->string 'A) "a")))
+#|
 (define (str-copy s)
   (let ((v (make-string (string-length s))))
     (do ((i (- (string-length v) 1) (- i 1)))
@@ -401,15 +402,18 @@
       (string-set! s i (char-standard-case (string-ref s i)))))
 (test (string-standard-case "flying-fish") symbol->string 'flying-fish)
 (test (string-standard-case "martin") symbol->string 'Martin)
+|#
 (test "Malvina" symbol->string (string->symbol "Malvina"))
 (test #t 'standard-case (eq? 'a 'A))
 
+#|
 (define x (string #\a #\b))
 (define y (string->symbol x))
 (string-set! x 0 #\c)
 (test "cb" 'string-set! x)
 (test "ab" symbol->string y)
 (test y string->symbol "ab")
+|#
 
 (test #t eq? 'mISSISSIppi 'mississippi)
 (test #f 'string->symbol (eq? 'bitBlt (string->symbol "bitBlt")))
@@ -417,13 +421,17 @@
 
 (SECTION 6 5 5)
 (test #t number? 3)
+#|
 (test #t complex? 3)
 (test #t real? 3)
 (test #t rational? 3)
+|#
 (test #t integer? 3)
 
+#|
 (test #t exact? 3)
 (test #f inexact? 3)
+|#
 
 (test #t = 22 22 22)
 (test #t = 22 22)
@@ -623,8 +631,10 @@
 (test #f string->number "+")
 
 (SECTION 6 6)
+#|
 (test #t eqv? '#\  #\Space)
 (test #t eqv? #\space '#\Space)
+|#
 (test #t char? #\a)
 (test #t char? #\()
 (test #t char? #\ )
@@ -742,8 +752,10 @@
 (SECTION 6 7)
 (test #t string? "The word \"recursion\\\" has many meanings.")
 ;(test #t string? "")
+#|
 (define f (make-string 3 #\*))
 (test "?**" 'string-set! (begin (string-set! f 0 #\?) f))
+|#
 (test "abc" string #\a #\b #\c)
 (test "" string)
 (test 3 string-length "abc")
@@ -857,7 +869,9 @@
 ;(test #f procedure? 'car)
 (test #t procedure? (lambda (x) (* x x)))
 (test #f procedure? '(lambda (x) (* x x)))
+#|
 (test #t call-with-current-continuation procedure?)
+|#
 (test 7 apply + (list 3 4))
 (test 7 apply (lambda (a b) (+ a b)) (list 3 4))
 (test 17 apply + 10 (list 3 4))
@@ -872,6 +886,7 @@
 		(for-each (lambda (i) (vector-set! v i (* i i)))
 			'(0 1 2 3 4))
 		v))
+#|
 (test -3 call-with-current-continuation
 		(lambda (exit)
 		 (for-each (lambda (x) (if (negative? x) (exit x)))
@@ -887,6 +902,7 @@
 	(r obj))))))
 (test 4 list-length '(1 2 3 4))
 (test #f list-length '(a b . c))
+|#
 (test '() map cadr '())
 
 ;;; This tests full conformance of call-with-current-continuation.  It
@@ -928,6 +944,7 @@
   (test #f leaf-eq? '(a (b (c))) '((a) b c d))
   (report-errs))
 
+#|
 ;;; Test Optional R4RS DELAY syntax and FORCE procedure
 (define (test-delay)
   (newline)
@@ -958,10 +975,12 @@
 		 (c #f))
 	  (force p)))
   (report-errs))
+|#
 
 (SECTION 6 10 1)
 (test #t input-port? (current-input-port))
 (test #t output-port? (current-output-port))
+#|
 (test #t call-with-input-file "r4rstest.scm" input-port?)
 (define this-file (open-input-file "r4rstest.scm"))
 (test #t input-port? this-file)
@@ -973,6 +992,7 @@
 (test '(define errs '()) read this-file)
 (close-input-port this-file)
 (close-input-port this-file)
+|#
 (define (check-test-file name)
   (define test-file (open-input-file name))
   (test #t 'input-port?
@@ -1037,9 +1057,12 @@
 ;; \\\\ End of my added tests -norvig
 
 (test-sc4)  ; I want to run these two; comment them out if you don't. -norvig
+#|
 (test-delay); -norvig
+|#
 
 (report-errs)
+#|
 (if (and (string->number "0.0") (inexact? (string->number "0.0")))
     (test-inexact))
 
@@ -1048,5 +1071,8 @@
       (test-bignum)))
 (newline)
 (display "To fully test continuations, do (test-cont)") ; -norvig
+|#
 (newline)
 "last item in file"
+(display "TEST END")
+(newline)
