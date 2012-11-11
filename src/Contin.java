@@ -31,10 +31,10 @@ final class Contin extends Function {
 	final public static RuntimeException escapeToken = Eval
 			.error("escapeToken");
 
-	static {
-		Subr.def("Contin", "callcc", "call/cc", 1);
-		Subr.def("Contin", "callcc", "call-with-current-continuation", 1);
-	}
+	/*
+	 * static { Subr.def("Contin", "callcc", "call/cc", 1); Subr.def("Contin",
+	 * "callcc", "call-with-current-continuation", 1); }
+	 */
 
 	public static Object callcc(Function fun) {
 		Contin cont = new Contin();
