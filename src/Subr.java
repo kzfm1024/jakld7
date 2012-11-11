@@ -177,16 +177,12 @@ final class Subr extends Function {
 				throw Eval.systemError("failed error analysis");
 			}
 		} catch (Throwable e) {
-			if (e == Contin.escapeToken)
-				throw (RuntimeException) e;
-			else {
-				if (e != Eval.backtraceToken) {
-					IO.println(Eval.errorMessage(e));
-					IO.print("Backtrace: " + name);
-				} else
-					IO.print(" < " + name);
-				throw Eval.backtraceToken;
-			}
+			if (e != Eval.backtraceToken) {
+				IO.println(Eval.errorMessage(e));
+				IO.print("Backtrace: " + name);
+			} else
+				IO.print(" < " + name);
+			throw Eval.backtraceToken;
 		}
 	}
 

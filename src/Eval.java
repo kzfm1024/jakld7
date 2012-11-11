@@ -29,7 +29,6 @@ final class Eval {
 		if (!systemInitialized) {
 			Call.init();
 			Char.init();
-			Contin.init();
 			Env.init();
 			IO.init();
 			Lambda.init();
@@ -683,7 +682,6 @@ final class Eval {
 	}
 
 	public static Boolean gbc() {
-		Contin.clean();
 		List.clean();
 		Subr.clean();
 		System.gc();

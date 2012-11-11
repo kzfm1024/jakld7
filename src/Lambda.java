@@ -51,16 +51,12 @@ final class Lambda extends Function {
 		try {
 			return Eval.evalBody(body, Env.lambdaBind(params, args, env), true);
 		} catch (Throwable e) {
-			if (e == Contin.escapeToken)
-				throw (RuntimeException) e;
-			else {
-				if (e != Eval.backtraceToken) {
-					IO.println(Eval.errorMessage(e));
-					IO.print("Backtrace: " + (name == null ? Slambda : name));
-				} else
-					IO.print(" < " + (name == null ? Slambda : name));
-				throw Eval.backtraceToken;
-			}
+			if (e != Eval.backtraceToken) {
+				IO.println(Eval.errorMessage(e));
+				IO.print("Backtrace: " + (name == null ? Slambda : name));
+			} else
+				IO.print(" < " + (name == null ? Slambda : name));
+			throw Eval.backtraceToken;
 		}
 	}
 
