@@ -18,8 +18,8 @@
 //
 // Contributor(s): Taiichi Yuasa <yuasa@kuis.kyoto-u.ac.jp>
 
-import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 final class Num {
 
@@ -625,9 +625,9 @@ final class Num {
 		Subr.def("Num", "string2num", "string->number", 1, 1);
 	}
 
-	public static Object string2num(String s, Integer n) {
+	public static Object string2num(LString s, Integer n) {
 		try {
-			return IO.readNumber(s, (n == null ? 10 : n.intValue()));
+			return IO.readNumber(s.toString(), (n == null ? 10 : n.intValue()));
 		} catch (NumberFormatException e) {
 			return F;
 		}

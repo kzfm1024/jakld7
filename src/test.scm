@@ -388,7 +388,6 @@
 (test #t 'standard-case
       (or (string=? (symbol->string 'a) "A")
 	  (string=? (symbol->string 'A) "a")))
-#|
 (define (str-copy s)
   (let ((v (make-string (string-length s))))
     (do ((i (- (string-length v) 1) (- i 1)))
@@ -402,18 +401,15 @@
       (string-set! s i (char-standard-case (string-ref s i)))))
 (test (string-standard-case "flying-fish") symbol->string 'flying-fish)
 (test (string-standard-case "martin") symbol->string 'Martin)
-|#
 (test "Malvina" symbol->string (string->symbol "Malvina"))
 (test #t 'standard-case (eq? 'a 'A))
 
-#|
 (define x (string #\a #\b))
 (define y (string->symbol x))
 (string-set! x 0 #\c)
 (test "cb" 'string-set! x)
 (test "ab" symbol->string y)
 (test y string->symbol "ab")
-|#
 
 (test #t eq? 'mISSISSIppi 'mississippi)
 (test #f 'string->symbol (eq? 'bitBlt (string->symbol "bitBlt")))
@@ -752,10 +748,8 @@
 (SECTION 6 7)
 (test #t string? "The word \"recursion\\\" has many meanings.")
 ;(test #t string? "")
-#|
 (define f (make-string 3 #\*))
 (test "?**" 'string-set! (begin (string-set! f 0 #\?) f))
-|#
 (test "abc" string #\a #\b #\c)
 (test "" string)
 (test 3 string-length "abc")

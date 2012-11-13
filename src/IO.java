@@ -273,7 +273,7 @@ final class IO {
 					c = inRead(in);
 				tokenBuffer.append(c);
 			}
-			return tokenBuffer.toString();
+			return new LString(tokenBuffer.toString());
 		case ';':
 			while ((c = (char) in.read()) != '\n')
 				if (c == EOF)
@@ -418,8 +418,8 @@ final class IO {
 				out.write("return");
 			else
 				out.write(c);
-		} else if (x instanceof String) {
-			String s = (String) x;
+		} else if (x instanceof LString) {
+			String s = ((LString) x).toString();
 			int len = s.length();
 			out.write('\"');
 			for (int i = 0; i < len; i++) {
@@ -493,7 +493,7 @@ final class IO {
 		else if (x instanceof Boolean)
 			out.write(((Boolean) x).booleanValue() ? "#t" : "#f");
 		else if (x instanceof Symbol)
-			out.write(Symbol.symbol2string((Symbol) x));
+			out.write(Symbol.symbol2string((Symbol) x).toString());
 		else if (x instanceof List) {
 			out.write('(');
 			if (x != List.nil) {
@@ -756,33 +756,33 @@ final class IO {
 		Subr.def("IO", "openInputFile", "open-input-file", 1, 1);
 	}
 
-	public static PushbackReader openInputFile(String name, String encoding)
+	public static PushbackReader openInputFile(LString name, LString encoding)
 			throws FileNotFoundException, UnsupportedEncodingException {
-		FileInputStream fis = new FileInputStream(name);
+		FileInputStream fis = new FileInputStream(name.toString());
 		return new PushbackReader(encoding == null ? new InputStreamReader(fis)
-				: new InputStreamReader(fis, encoding));
+				: new InputStreamReader(fis, encoding.toString()));
 	}
 
 	static {
 		Subr.def("IO", "openOutputFile", "open-output-file", 1, 1);
 	}
 
-	public static Writer openOutputFile(String name, String encoding)
+	public static Writer openOutputFile(LString name, LString encoding)
 			throws IOException, UnsupportedEncodingException {
-		FileOutputStream fos = new FileOutputStream(name);
+		FileOutputStream fos = new FileOutputStream(name.toString());
 		return encoding == null ? new OutputStreamWriter(fos)
-				: new OutputStreamWriter(fos, encoding);
+				: new OutputStreamWriter(fos, encoding.toString());
 	}
 
 	static {
 		Subr.def("IO", "callWithInputFile", "call-with-input-file", 2, 1);
 	}
 
-	public static Object callWithInputFile(String s, Object arg, Object opt)
+	public static Object callWithInputFile(LString s, Object arg, Object opt)
 			throws IOException {
 		// (callWithInputFile filename [encoding] function)
-		PushbackReader in = openInputFile(s,
-				(opt == null ? null : (String) arg));
+		PushbackReader in = openInputFile(s, (opt == null ? null
+				: (LString) arg));
 		try {
 			return ((Function) (opt == null ? arg : opt)).invoke1(in);
 		} finally {
@@ -794,10 +794,10 @@ final class IO {
 		Subr.def("IO", "callWithOutputFile", "call-with-output-file", 2, 1);
 	}
 
-	public static Object callWithOutputFile(String s, Object arg, Object opt)
+	public static Object callWithOutputFile(LString s, Object arg, Object opt)
 			throws IOException {
 		// (callWithOutputFile filename [encoding] function)
-		Writer out = openOutputFile(s, (opt == null ? null : (String) arg));
+		Writer out = openOutputFile(s, (opt == null ? null : (LString) arg));
 		try {
 			return ((Function) (opt == null ? arg : opt)).invoke1(out);
 		} finally {
@@ -837,19 +837,19 @@ final class IO {
 		Subr.def("IO", "load", 1, 2);
 	}
 
-	public static String load(String s, Object opt1, Object opt2)
+	public static LString load(LString s, Object opt1, Object opt2)
 			throws Throwable {
-		String encoding = null;
+		LString encoding = null;
 		boolean verbose = false;
 		if (opt1 != null)
-			if (opt1 instanceof String) {
-				encoding = (String) opt1;
+			if (opt1 instanceof LString) {
+				encoding = (LString) opt1;
 				if (opt2 != null)
 					verbose = ((Boolean) opt2).booleanValue();
 			} else {
 				verbose = ((Boolean) opt1).booleanValue();
 				if (opt2 != null)
-					encoding = (String) opt2;
+					encoding = (LString) opt2;
 			}
 		PushbackReader in = openInputFile(s, encoding);
 		try {

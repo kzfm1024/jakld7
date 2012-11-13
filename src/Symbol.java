@@ -29,7 +29,6 @@ final class Symbol {
 
 	private String name;
 	private Object value = null;
-	// Object value = null;
 	private int kind = SKundefined;
 	private String printName = null;
 
@@ -43,7 +42,12 @@ final class Symbol {
 	private final static Boolean F = Boolean.FALSE;
 
 	static {
-		Subr.def("Symbol", "intern", "string->symbol", 1);
+		// Subr.def("Symbol", "intern", "string->symbol", 1);
+		Subr.def("Symbol", "string2symbol", "string->symbol", 1);
+	}
+
+	public static Symbol string2symbol(LString s) {
+		return intern(s.toString());
 	}
 
 	public static Symbol intern(String s) {
@@ -139,8 +143,8 @@ final class Symbol {
 		Subr.def("Symbol", "symbol2string", "symbol->string", 1);
 	}
 
-	public static String symbol2string(Symbol sym) {
-		return sym.name;
+	public static LString symbol2string(Symbol sym) {
+		return new LString(sym.name);
 	}
 
 	// the following functions are required to execute the Boyer benchmark.

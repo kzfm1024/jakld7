@@ -34,6 +34,7 @@ final class Eval {
 			Lambda.init();
 			Macro.init();
 			List.init();
+			LString.init();
 			Num.init();
 			Symbol.init();
 			Subr.init(); // This should come last.
@@ -73,7 +74,7 @@ final class Eval {
 
 	public static void loadProgram(String filename) {
 		try {
-			IO.load(filename, null, null);
+			IO.load(new LString(filename), null, null);
 		} catch (Throwable e) {
 			if (e != backtraceToken) {
 				IO.println(errorMessage(e));
