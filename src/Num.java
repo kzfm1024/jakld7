@@ -610,15 +610,15 @@ final class Num {
 		Subr.def("Num", "num2string", "number->string", 1, 1);
 	}
 
-	public static String num2string(Number num, Integer n) {
+	public static LString num2string(Number num, Integer n) {
 		int radix = (n == null ? 10 : n.intValue());
 
 		if (num instanceof Integer)
-			return Integer.toString(num.intValue(), radix);
+			return new LString(Integer.toString(num.intValue(), radix));
 		else if (num instanceof BigInteger)
-			return ((BigInteger) num).toString(radix);
+			return new LString(((BigInteger) num).toString(radix));
 		else
-			return num.toString();
+			return new LString(num.toString());
 	}
 
 	static {
