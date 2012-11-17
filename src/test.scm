@@ -383,11 +383,13 @@
 (define char-standard-case char-upcase)
 (if (string=? (symbol->string 'A) "a")
     (set! char-standard-case char-downcase))
+#|
 (test #t 'standard-case
-      (string=? (symbol->string 'a) (symbol->string 'A)))
+      (string=? (symbol->string 'a) (symbol->string 'A))) ; this test is wrong
 (test #t 'standard-case
       (or (string=? (symbol->string 'a) "A")
-	  (string=? (symbol->string 'A) "a")))
+	  (string=? (symbol->string 'A) "a"))) ; this test is wrong
+|#
 (define (str-copy s)
   (let ((v (make-string (string-length s))))
     (do ((i (- (string-length v) 1) (- i 1)))
@@ -399,10 +401,16 @@
        (sl (string-length s)))
       ((>= i sl) s)
       (string-set! s i (char-standard-case (string-ref s i)))))
+#|
 (test (string-standard-case "flying-fish") symbol->string 'flying-fish)
-(test (string-standard-case "martin") symbol->string 'Martin)
+(test (string-standard-case "MARTIN") symbol->string 'Martin) ; this test is wrong
+|#
+(test (string-standard-case "flying-fish") symbol->string 'FLYING-FISH)
+(test (string-standard-case "MaRtIn") symbol->string 'MARTIN)
 (test "Malvina" symbol->string (string->symbol "Malvina"))
-(test #t 'standard-case (eq? 'a 'A))
+#|
+(test #t 'standard-case (eq? 'a 'A)) ; this test is wrong
+|#
 
 (define x (string #\a #\b))
 (define y (string->symbol x))
@@ -411,20 +419,23 @@
 (test "ab" symbol->string y)
 (test y string->symbol "ab")
 
-(test #t eq? 'mISSISSIppi 'mississippi)
-(test #f 'string->symbol (eq? 'bitBlt (string->symbol "bitBlt")))
+(test #f eq? 'mISSISSIppi 'mississippi) ; case-sensitive on R7RS
+(test #t eq? 'mISSISSIppi 'mISSISSIppi) ; case-sensitive on R7RS
+#|
+(test #f 'string->symbol (eq? 'bitBlt (string->symbol "bitBlt"))) ; this test is wrong
+|#
 (test 'JollyWog string->symbol (symbol->string 'JollyWog))
 
 (SECTION 6 5 5)
 (test #t number? 3)
-#|
+#| NOT YET
 (test #t complex? 3)
 (test #t real? 3)
 (test #t rational? 3)
 |#
 (test #t integer? 3)
 
-#|
+#| NOT YET
 (test #t exact? 3)
 (test #f inexact? 3)
 |#
@@ -627,9 +638,10 @@
 (test #f string->number "+")
 
 (SECTION 6 6)
-#|
+(test #t eqv? '#\  #\space)
+#| ;;; R7RS scheme is case-sensitive
 (test #t eqv? '#\  #\Space)
-(test #t eqv? #\space '#\Space)
+(test #t eqv? #\space '#\Space) 
 |#
 (test #t char? #\a)
 (test #t char? #\()
@@ -863,7 +875,7 @@
 ;(test #f procedure? 'car)
 (test #t procedure? (lambda (x) (* x x)))
 (test #f procedure? '(lambda (x) (* x x)))
-#|
+#| NOT YET
 (test #t call-with-current-continuation procedure?)
 |#
 (test 7 apply + (list 3 4))
@@ -880,7 +892,7 @@
 		(for-each (lambda (i) (vector-set! v i (* i i)))
 			'(0 1 2 3 4))
 		v))
-#|
+#| NOT YET
 (test -3 call-with-current-continuation
 		(lambda (exit)
 		 (for-each (lambda (x) (if (negative? x) (exit x)))
@@ -938,7 +950,7 @@
   (test #f leaf-eq? '(a (b (c))) '((a) b c d))
   (report-errs))
 
-#|
+#| NOT YET
 ;;; Test Optional R4RS DELAY syntax and FORCE procedure
 (define (test-delay)
   (newline)
@@ -974,9 +986,8 @@
 (SECTION 6 10 1)
 (test #t input-port? (current-input-port))
 (test #t output-port? (current-output-port))
-#|
-(test #t call-with-input-file "r4rstest.scm" input-port?)
-(define this-file (open-input-file "r4rstest.scm"))
+(test #t call-with-input-file "src/r4rstest.scm" input-port?)
+(define this-file (open-input-file "src/r4rstest.scm"))
 (test #t input-port? this-file)
 (SECTION 6 10 2)
 (test #\; peek-char this-file)
@@ -986,7 +997,6 @@
 (test '(define errs '()) read this-file)
 (close-input-port this-file)
 (close-input-port this-file)
-|#
 (define (check-test-file name)
   (define test-file (open-input-file name))
   (test #t 'input-port?
@@ -1038,7 +1048,7 @@
   (SECTION 6 8)
   (test '(dah dah didah) vector->list '#(dah dah didah))
   (test '() vector->list '#())
-  (test '#(dididit dah) list->vector '(dididit dah))
+  (test '#(dididit dah) list->vector '(dididit dah)) ; this test is wrong for R7RS
   (test '#() list->vector '())
   (SECTION 6 10 4)
   (load "tmp1")
@@ -1051,12 +1061,12 @@
 ;; \\\\ End of my added tests -norvig
 
 (test-sc4)  ; I want to run these two; comment them out if you don't. -norvig
-#|
+#| NOT YET
 (test-delay); -norvig
 |#
 
 (report-errs)
-#|
+#| NOT YET
 (if (and (string->number "0.0") (inexact? (string->number "0.0")))
     (test-inexact))
 
