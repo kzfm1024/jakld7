@@ -56,7 +56,7 @@ final class Eval {
 	}
 
 	public static void readEvalPrintLoop() {
-		for (;;)
+		for (;;) {
 			try {
 				IO.print("\n>");
 				Object expr = IO.read(null);
@@ -70,6 +70,7 @@ final class Eval {
 				} else
 					IO.println(" < top-level");
 			}
+		}
 	}
 
 	public static void loadProgram(String filename) {
@@ -635,7 +636,7 @@ final class Eval {
 	}
 
 	public static Boolean equal(Object obj1, Object obj2) {
-		for (;;)
+		for (;;) {
 			if (eqv(obj1, obj2) == T)
 				return T;
 			else if (obj1 instanceof Pair)
@@ -652,14 +653,13 @@ final class Eval {
 				if (obj2 instanceof Object[]) {
 					Object[] v1 = (Object[]) obj1;
 					Object[] v2 = (Object[]) obj2;
-					if (v1.length == v2.length) {
-						for (int i = 0; i < v1.length; i++) {
-							if (equal(v1[i], v2[i]) == F)
-								return F;
-						}
-						return T;
+					if (v1.length != v2.length)
+						return F;
+					for (int i = 0; i < v1.length; i++) {
+						if (equal(v1[i], v2[i]) == F)
+							return F;
 					}
-					return F;
+					return T;
 				} else
 					return F;
 			else if (obj1 instanceof LString)
@@ -668,6 +668,7 @@ final class Eval {
 								((LString) obj2).toString()) ? T : F;
 			else
 				return F;
+		}
 	}
 
 	static {
