@@ -626,9 +626,6 @@ final class Eval {
 					&& Num.compare((Number) obj1, (Number) obj2) == 0 ? T : F;
 		else if (obj1 instanceof Character)
 			return ((Character) obj1).equals(obj2) ? T : F;
-		else if (obj1 instanceof String && ((String) obj1).length() == 0)
-			return obj2 instanceof String && ((String) obj2).length() == 0 ? T
-					: F;
 		else
 			return F;
 	}
@@ -651,9 +648,24 @@ final class Eval {
 					obj2 = y.cdr;
 				} else
 					return F;
-			else if (obj1 instanceof String)
-				return obj2 instanceof String
-						&& ((String) obj1).equals((String) obj2) ? T : F;
+			else if (obj1 instanceof Object[])
+				if (obj2 instanceof Object[]) {
+					Object[] v1 = (Object[]) obj1;
+					Object[] v2 = (Object[]) obj2;
+					if (v1.length == v2.length) {
+						for (int i = 0; i < v1.length; i++) {
+							if (equal(v1[i], v2[i]) == F)
+								return F;
+						}
+						return T;
+					}
+					return F;
+				} else
+					return F;
+			else if (obj1 instanceof LString)
+				return obj2 instanceof LString
+						&& ((LString) obj1).toString().equals(
+								((LString) obj2).toString()) ? T : F;
 			else
 				return F;
 	}
