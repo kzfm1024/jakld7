@@ -370,32 +370,6 @@ final class Num {
 	}
 
 	static {
-		Subr.def("Num", "onePlus", "1+", 1);
-	}
-
-	public static Number onePlus(Number num) {
-		if (num instanceof Integer)
-			return long2Number(num.longValue() + 1);
-		else if (num instanceof BigInteger)
-			return normalize(((BigInteger) num).add(BigIntegerONE));
-		else
-			return new Double(num.doubleValue() + 1);
-	}
-
-	static {
-		Subr.def("Num", "oneMinus", "1-", 1);
-	}
-
-	public static Number oneMinus(Number num) {
-		if (num instanceof Integer)
-			return long2Number(num.longValue() - 1);
-		else if (num instanceof BigInteger)
-			return normalize(((BigInteger) num).subtract(BigIntegerONE));
-		else
-			return new Double(num.doubleValue() - 1);
-	}
-
-	static {
 		Subr.def("Num", "abs", 1);
 	}
 
