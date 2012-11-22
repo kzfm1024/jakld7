@@ -659,30 +659,30 @@ final class IO {
 		return currentOutputPort;
 	}
 
-	static {
-		Subr.def("IO", "consoleInputPort", "console-input-port", 0, 1);
-	}
+	// static {
+	// Subr.def("IO", "consoleInputPort", "console-input-port", 0, 1);
+	// }
+	//
+	// public static PushbackReader consoleInputPort(String encoding)
+	// throws UnsupportedEncodingException {
+	// if (encoding == null)
+	// return consoleInput;
+	// else
+	// return new PushbackReader(
+	// new InputStreamReader(System.in, encoding));
+	// }
 
-	public static PushbackReader consoleInputPort(String encoding)
-			throws UnsupportedEncodingException {
-		if (encoding == null)
-			return consoleInput;
-		else
-			return new PushbackReader(
-					new InputStreamReader(System.in, encoding));
-	}
-
-	static {
-		Subr.def("IO", "consoleOutputPort", "console-output-port", 0, 1);
-	}
-
-	public static Writer consoleOutputPort(String encoding)
-			throws UnsupportedEncodingException {
-		if (encoding == null)
-			return consoleOutput;
-		else
-			return new OutputStreamWriter(System.out, encoding);
-	}
+	// static {
+	// Subr.def("IO", "consoleOutputPort", "console-output-port", 0, 1);
+	// }
+	//
+	// public static Writer consoleOutputPort(String encoding)
+	// throws UnsupportedEncodingException {
+	// if (encoding == null)
+	// return consoleOutput;
+	// else
+	// return new OutputStreamWriter(System.out, encoding);
+	// }
 
 	static {
 		Subr.def("IO", "closeInputPort", "close-input-port", 1);
@@ -699,15 +699,6 @@ final class IO {
 
 	public static Boolean closeOutputPort(Writer out) throws IOException {
 		out.close();
-		return T;
-	}
-
-	static {
-		Subr.def("IO", "flushPort", "flush-port", 0, 1);
-	}
-
-	public static Boolean flushPort(Writer out) throws IOException {
-		(out == null ? currentOutputPort : out).flush();
 		return T;
 	}
 
@@ -748,8 +739,8 @@ final class IO {
 		Subr.def("IO", "fileExists", "file-exists?", 1);
 	}
 
-	public static Boolean fileExists(String s) {
-		return (new File(s)).exists() ? T : F;
+	public static Boolean fileExists(LString s) {
+		return (new File(s.toString())).exists() ? T : F;
 	}
 
 	static {
