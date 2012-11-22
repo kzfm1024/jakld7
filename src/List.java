@@ -357,27 +357,27 @@ class List {
 		return new Pair(x, new Pair(y, new Pair(z, new Pair(w, nil))));
 	}
 
-	static {
-		Subr.def("List", "listA", "list*", 1, true);
-	}
-
-	public static Object listA(Object x, List args) {
-		if (args == nil)
-			return x;
-		else {
-			List val = args;
-			for (;;) {
-				Object y = args.car;
-				args.car = x;
-				x = y;
-				if (args.cdr == nil) {
-					args.cdr = x;
-					return val;
-				}
-				args = (List) args.cdr;
-			}
-		}
-	}
+	// static {
+	// Subr.def("List", "listA", "list*", 1, true);
+	// }
+	//
+	// public static Object listA(Object x, List args) {
+	// if (args == nil)
+	// return x;
+	// else {
+	// List val = args;
+	// for (;;) {
+	// Object y = args.car;
+	// args.car = x;
+	// x = y;
+	// if (args.cdr == nil) {
+	// args.cdr = x;
+	// return val;
+	// }
+	// args = (List) args.cdr;
+	// }
+	// }
+	// }
 
 	static {
 		Subr.def("List", "length", 1);
@@ -390,26 +390,26 @@ class List {
 		return Num.makeInt(len);
 	}
 
-	static {
-		Subr.def("List", "last", 1);
-	}
+	// static {
+	// Subr.def("List", "last", 1);
+	// }
+	//
+	// public static List last(List x) {
+	// Object next;
+	// while ((next = x.cdr) instanceof Pair)
+	// x = (Pair) next;
+	// return x;
+	// }
 
-	public static List last(List x) {
-		Object next;
-		while ((next = x.cdr) instanceof Pair)
-			x = (Pair) next;
-		return x;
-	}
-
-	static {
-		Subr.def("List", "nthcdr", 2);
-	}
-
-	public static Object nthcdr(int n, Object x) {
-		while (--n >= 0)
-			x = ((List) x).cdr;
-		return x;
-	}
+	// static {
+	// Subr.def("List", "nthcdr", 2);
+	// }
+	//
+	// public static Object nthcdr(int n, Object x) {
+	// while (--n >= 0)
+	// x = ((List) x).cdr;
+	// return x;
+	// }
 
 	static {
 		Subr.def("List", "nth", "list-ref", 2);
@@ -443,25 +443,25 @@ class List {
 		return dummyHeader.cdr;
 	}
 
-	static {
-		Subr.def("List", "nconc", 0, true);
-	}
-
-	public static Object nconc(List args) {
-		if (args == nil)
-			return nil;
-		Pair last = dummyHeader;
-		for (; args.cdr != nil; args = (List) args.cdr) {
-			List elem = (List) args.car;
-			if (elem != nil) {
-				last.cdr = elem;
-				for (last = (Pair) elem; last.cdr != nil; last = (Pair) last.cdr)
-					;
-			}
-		}
-		last.cdr = args.car;
-		return dummyHeader.cdr;
-	}
+	// static {
+	// Subr.def("List", "nconc", 0, true);
+	// }
+	//
+	// public static Object nconc(List args) {
+	// if (args == nil)
+	// return nil;
+	// Pair last = dummyHeader;
+	// for (; args.cdr != nil; args = (List) args.cdr) {
+	// List elem = (List) args.car;
+	// if (elem != nil) {
+	// last.cdr = elem;
+	// for (last = (Pair) elem; last.cdr != nil; last = (Pair) last.cdr)
+	// ;
+	// }
+	// }
+	// last.cdr = args.car;
+	// return dummyHeader.cdr;
+	// }
 
 	static {
 		Subr.def("List", "reverse", 1);
@@ -475,9 +475,9 @@ class List {
 		return val;
 	}
 
-	static {
-		Subr.def("List", "nreverse", 1);
-	}
+	// static {
+	// Subr.def("List", "nreverse", 1);
+	// }
 
 	public static List nreverse(List arg) {
 		List val = nil;
