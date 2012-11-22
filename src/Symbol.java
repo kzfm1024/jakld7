@@ -147,31 +147,33 @@ final class Symbol {
 		return new LString(sym.name);
 	}
 
-	// the following functions are required to execute the Boyer benchmark.
-	private List property = List.nil;
-
-	static {
-		Subr.def("Symbol", "get", 2);
-	}
-
-	public static Object get(Symbol sym, Object key) {
-		for (List plist = sym.property; plist != List.nil; plist = (List) ((List) plist.cdr).cdr)
-			if (plist.car == key)
-				return ((List) plist.cdr).car;
-		return List.nil;
-	}
-
-	static {
-		Subr.def("Symbol", "put", 3);
-	}
-
-	public static Object put(Symbol sym, Object key, Object val) {
-		for (List plist = sym.property; plist != List.nil; plist = (List) ((List) plist.cdr).cdr)
-			if (plist.car == key)
-				return ((Pair) plist.cdr).car = val;
-		sym.property = new Pair(key, new Pair(val, sym.property));
-		return val;
-	}
+	// // the following functions are required to execute the Boyer benchmark.
+	// private List property = List.nil;
+	//
+	// static {
+	// Subr.def("Symbol", "get", 2);
+	// }
+	//
+	// public static Object get(Symbol sym, Object key) {
+	// for (List plist = sym.property; plist != List.nil; plist = (List) ((List)
+	// plist.cdr).cdr)
+	// if (plist.car == key)
+	// return ((List) plist.cdr).car;
+	// return List.nil;
+	// }
+	//
+	// static {
+	// Subr.def("Symbol", "put", 3);
+	// }
+	//
+	// public static Object put(Symbol sym, Object key, Object val) {
+	// for (List plist = sym.property; plist != List.nil; plist = (List) ((List)
+	// plist.cdr).cdr)
+	// if (plist.car == key)
+	// return ((Pair) plist.cdr).car = val;
+	// sym.property = new Pair(key, new Pair(val, sym.property));
+	// return val;
+	// }
 
 	private static int gensymCounter = 0;
 
