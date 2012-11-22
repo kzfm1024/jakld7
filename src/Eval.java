@@ -18,7 +18,6 @@
 //
 // Contributor(s): Taiichi Yuasa <yuasa@kuis.kyoto-u.ac.jp>
 
-//import java.io.*;
 import java.lang.reflect.Array;
 
 final class Eval {
