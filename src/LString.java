@@ -49,7 +49,8 @@ final class LString {
 		Subr.def("LString", "makeString", "make-string", 1, 1);
 	}
 
-	public static LString makeString(int length, Character fill) {
+	public static LString makeString(LNumber lnum, Character fill) {
+		int length = lnum.intValue();
 		if (length == 0)
 			return new LString("");
 		else {
@@ -93,15 +94,19 @@ final class LString {
 		Subr.def("LString", "stringLength", "string-length", 1);
 	}
 
-	public static Integer stringLength(LString s) {
-		return Num.makeInt(s.str.length());
+	// public static Integer stringLength(LString s) {
+	// return Num.makeInt(s.str.length());
+	// }
+	public static LNumber stringLength(LString s) {
+		return new LNumber(Num.makeInt(s.str.length()));
 	}
 
 	static {
 		Subr.def("LString", "stringRef", "string-ref", 2);
 	}
 
-	public static Character stringRef(LString s, int index) {
+	public static Character stringRef(LString s, LNumber lnum) {
+		int index = lnum.intValue();
 		return Char.makeChar(s.str.charAt(index));
 	}
 
@@ -109,7 +114,8 @@ final class LString {
 		Subr.def("LString", "stringSet", "string-set!", 3);
 	}
 
-	public static LString stringSet(LString s, int index, char c) {
+	public static LString stringSet(LString s, LNumber lnum, char c) {
+		int index = lnum.intValue();
 		StringBuffer sb = new StringBuffer(s.str);
 		sb.setCharAt(index, c);
 		s.str = sb.toString();
@@ -228,11 +234,17 @@ final class LString {
 		Subr.def("LString", "substring", 2, 1);
 	}
 
-	public static LString substring(LString s, int from, Integer to) {
+	// public static LString substring(LString s, int from, Integer to) {
+	// if (to == null)
+	// return new LString(s.str.substring(from));
+	// else
+	// return new LString(s.str.substring(from, to.intValue()));
+	// }
+	public static LString substring(LString s, LNumber from, LNumber to) {
 		if (to == null)
-			return new LString(s.str.substring(from));
+			return new LString(s.str.substring(from.intValue()));
 		else
-			return new LString(s.str.substring(from, to.intValue()));
+			return new LString(s.str.substring(from.intValue(), to.intValue()));
 	}
 
 	static void init() {

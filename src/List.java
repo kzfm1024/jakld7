@@ -357,65 +357,23 @@ class List {
 		return new Pair(x, new Pair(y, new Pair(z, new Pair(w, nil))));
 	}
 
-	// static {
-	// Subr.def("List", "listA", "list*", 1, true);
-	// }
-	//
-	// public static Object listA(Object x, List args) {
-	// if (args == nil)
-	// return x;
-	// else {
-	// List val = args;
-	// for (;;) {
-	// Object y = args.car;
-	// args.car = x;
-	// x = y;
-	// if (args.cdr == nil) {
-	// args.cdr = x;
-	// return val;
-	// }
-	// args = (List) args.cdr;
-	// }
-	// }
-	// }
-
 	static {
 		Subr.def("List", "length", 1);
 	}
 
-	public static Integer length(List x) {
+	public static LNumber length(List x) {
 		int len = 0;
 		for (; x != nil; x = (List) x.cdr)
 			len++;
-		return Num.makeInt(len);
+		return new LNumber(Num.makeInt(len));
 	}
-
-	// static {
-	// Subr.def("List", "last", 1);
-	// }
-	//
-	// public static List last(List x) {
-	// Object next;
-	// while ((next = x.cdr) instanceof Pair)
-	// x = (Pair) next;
-	// return x;
-	// }
-
-	// static {
-	// Subr.def("List", "nthcdr", 2);
-	// }
-	//
-	// public static Object nthcdr(int n, Object x) {
-	// while (--n >= 0)
-	// x = ((List) x).cdr;
-	// return x;
-	// }
 
 	static {
 		Subr.def("List", "nth", "list-ref", 2);
 	}
 
-	public static Object nth(List x, int n) {
+	public static Object nth(List x, LNumber lnum) {
+		int n = lnum.intValue();
 		while (--n >= 0)
 			x = (List) x.cdr;
 		return x.car;
@@ -443,26 +401,6 @@ class List {
 		return dummyHeader.cdr;
 	}
 
-	// static {
-	// Subr.def("List", "nconc", 0, true);
-	// }
-	//
-	// public static Object nconc(List args) {
-	// if (args == nil)
-	// return nil;
-	// Pair last = dummyHeader;
-	// for (; args.cdr != nil; args = (List) args.cdr) {
-	// List elem = (List) args.car;
-	// if (elem != nil) {
-	// last.cdr = elem;
-	// for (last = (Pair) elem; last.cdr != nil; last = (Pair) last.cdr)
-	// ;
-	// }
-	// }
-	// last.cdr = args.car;
-	// return dummyHeader.cdr;
-	// }
-
 	static {
 		Subr.def("List", "reverse", 1);
 	}
@@ -474,10 +412,6 @@ class List {
 		}
 		return val;
 	}
-
-	// static {
-	// Subr.def("List", "nreverse", 1);
-	// }
 
 	public static List nreverse(List arg) {
 		List val = nil;
@@ -570,7 +504,8 @@ class List {
 		Subr.def("List", "makeVector", "make-vector", 1, 1);
 	}
 
-	public static Object[] makeVector(int length, Object fill) {
+	public static Object[] makeVector(LNumber lnum, Object fill) {
+		int length = lnum.intValue();
 		if (length == 0)
 			return emptyVector;
 		else {
@@ -615,24 +550,24 @@ class List {
 		Subr.def("List", "vectorLength", "vector-length", 1);
 	}
 
-	public static Integer vectorLength(Object[] v) {
-		return Num.makeInt(Array.getLength(v));
+	public static LNumber vectorLength(Object[] v) {
+		return new LNumber(Num.makeInt(Array.getLength(v)));
 	}
 
 	static {
 		Subr.def("List", "vectorRef", "vector-ref", 2);
 	}
 
-	public static Object vectorRef(Object[] v, int index) {
-		return v[index];
+	public static Object vectorRef(Object[] v, LNumber index) {
+		return v[index.intValue()];
 	}
 
 	static {
 		Subr.def("List", "vectorSet", "vector-set!", 3);
 	}
 
-	public static Object vectorSet(Object[] v, int index, Object val) {
-		return v[index] = val;
+	public static Object vectorSet(Object[] v, LNumber index, Object val) {
+		return v[index.intValue()] = val;
 	}
 
 	static void init() {

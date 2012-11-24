@@ -35,6 +35,7 @@ final class Eval {
 			List.init();
 			LString.init();
 			Num.init();
+			LNumber.init();
 			Symbol.init();
 			Subr.init(); // This should come last.
 
@@ -619,15 +620,15 @@ final class Eval {
 	}
 
 	public static Boolean eqv(Object obj1, Object obj2) {
-		if (obj1 == obj2)
+		if (obj1 == obj2) {
 			return T;
-		else if (obj1 instanceof Number)
-			return obj2 instanceof Number
-					&& Num.compare((Number) obj1, (Number) obj2) == 0 ? T : F;
-		else if (obj1 instanceof Character)
+		} else if (obj1 instanceof LNumber && obj2 instanceof LNumber) {
+			return LNumber.compare((LNumber) obj1, (LNumber) obj2) == 0 ? T : F;
+		} else if (obj1 instanceof Character) {
 			return ((Character) obj1).equals(obj2) ? T : F;
-		else
+		} else {
 			return F;
+		}
 	}
 
 	static {

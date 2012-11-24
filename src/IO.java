@@ -200,18 +200,18 @@ final class IO {
 		return tokenBuffer.length() == 0 ? "" : tokenBuffer.toString();
 	}
 
-	static Number readNumber(String s, int radix) throws NumberFormatException {
+	static LNumber readNumber(String s, int radix) throws NumberFormatException {
 		if (s.length() > 0 && s.charAt(0) == '+')
 			s = s.substring(1);
 		try {
-			return Num.makeInt(Integer.parseInt(s, radix));
+			return new LNumber(Num.makeInt(Integer.parseInt(s, radix)));
 		} catch (NumberFormatException e) {
 		}
 		try {
-			return new BigInteger(s, radix);
+			return new LNumber(new BigInteger(s, radix));
 		} catch (NumberFormatException e) {
 			if (radix == 10)
-				return new Double(s);
+				return new LNumber(new Double(s));
 			else
 				throw e;
 		}
@@ -701,6 +701,18 @@ final class IO {
 		out.close();
 		return T;
 	}
+
+	//
+	// FIXME - implement flush-output-port
+	//
+	// static {
+	// Subr.def("IO", "flushPort", "flush-port", 0, 1);
+	// }
+	//
+	// public static Boolean flushPort(Writer out) throws IOException {
+	// (out == null ? currentOutputPort : out).flush();
+	// return T;
+	// }
 
 	static {
 		Subr.def("IO", "openInputString", "open-input-string", 1);
