@@ -702,17 +702,14 @@ final class IO {
 		return T;
 	}
 
-	//
-	// FIXME - implement flush-output-port
-	//
-	// static {
-	// Subr.def("IO", "flushPort", "flush-port", 0, 1);
-	// }
-	//
-	// public static Boolean flushPort(Writer out) throws IOException {
-	// (out == null ? currentOutputPort : out).flush();
-	// return T;
-	// }
+	static {
+		Subr.def("IO", "flushPort", "flush-output-port", 0, 1);
+	}
+
+	public static Boolean flushPort(Writer out) throws IOException {
+		(out == null ? currentOutputPort : out).flush();
+		return T;
+	}
 
 	static {
 		Subr.def("IO", "openInputString", "open-input-string", 1);
